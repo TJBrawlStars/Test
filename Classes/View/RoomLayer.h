@@ -11,11 +11,11 @@ using namespace ui;
 /**
 * @brief ·¿¼ä³¡¾°
 */
-class RoomScene :public Layer
+class RoomLayer :public Layer
 {
 public:
 
-	CREATE_FUNC(RoomScene);
+	CREATE_FUNC(RoomLayer);
 
 private:
 

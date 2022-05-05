@@ -3,7 +3,9 @@
 #include<cassert>
 #include "cocos2d.h"
 #include "HelloWorldScene.h"
-#include "view/MainScene.h"
+#include "View/MainScene.h"
+#include "View/GameScene.h"
+#include "View/SettlementScene.h"
 
 USING_NS_CC;
 
@@ -37,6 +39,11 @@ public:
     */
     void changeScene(EnumSceneType type);
 
+  /**
+  * @brief 判断是不是第一次运行场景
+  */
+    bool isFirst() { return _first; }
+
 private:
 
     SceneManager() {};
@@ -45,5 +52,7 @@ private:
 
     //场景管理器对象
     static SceneManager* _scene_manager;
+
+    bool _first = true;
 
 };

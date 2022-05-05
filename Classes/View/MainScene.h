@@ -7,8 +7,10 @@ USING_NS_CC;
 #include"ui/CocosGUI.h"
 using namespace ui;
 #include "LoadingScene.h"
+#include "RoomLayer.h"
 
 class LoadingScene;
+class RoomLayer;
 
 /**
    * @brief 主场景
@@ -50,5 +52,7 @@ private:
 
    Sprite* _figure = NULL;
 
+   //房间层
+   RoomLayer* _room = NULL;
 };
 

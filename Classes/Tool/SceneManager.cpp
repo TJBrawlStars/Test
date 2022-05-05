@@ -37,8 +37,10 @@ void SceneManager::changeScene(EnumSceneType type)
 		scene = MainScene::create();
 		break;
 	case en_GameScene:
+		scene = GameScene::create();
 		break;
 	case en_SettlementScene:
+		scene = SettlementScene::create();
 		break;
 	}
 
@@ -49,7 +51,10 @@ void SceneManager::changeScene(EnumSceneType type)
 	Director* director = Director::getInstance();
 	const Scene* cur_scene = director->getRunningScene();
 	if (cur_scene == NULL)
+	{
 		director->runWithScene(scene);
+		_first = false;
+	}
 	else
 		director->replaceScene(scene);
 }

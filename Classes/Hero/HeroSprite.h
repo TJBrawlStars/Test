@@ -35,7 +35,13 @@ public:
 	* @fn setTouchListener
 	* @brief choose whether to use the mouse to shot. The function is disabled by default
 	*/
-	void setTouchListener(bool mouseState) noexcept = delete;
+	void setTouchListener(bool touchState) noexcept;
+
+	/**
+	* @fn getMoveSpeed
+	* @return the speed of hero(the distance the hero moves every second)
+	*/
+	float getMoveSpeed() const noexcept { return static_cast<float>(_moveSpeed); }
 
 protected:
 	/**
@@ -58,10 +64,15 @@ protected:
 	
 	/**
 	* @fn attack
-	* @brief the attack animation
-	* @details derived classes need to override the attack function, which will act as the listener callback
+	* @brief derived classes need to override the attack function, which will act as the listener callback
 	*/
 	virtual bool attack(cocos2d::Touch* touch, cocos2d::Event* event) = 0;
+
+	/**
+	* @fn startLoading
+	* @brief each bullet is loaded for 0.75 seconds
+	*/
+	void startLoading(float fdelta = 1);
 
 private:
 	bool _shotState = false;
@@ -84,5 +95,5 @@ private:
 	* @fn moveHero
 	* @brief used by scheduler to move hero
 	*/
-	void moveHero(float fdelta);
+	void moveHero(float fdelta = 1);
 };

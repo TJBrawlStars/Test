@@ -27,7 +27,7 @@ public:
 protected:
 	/**
 	* @fn attack
-	* @brief the attack animation of Beiya
+	* @brief the attack callback of Beiya
 	*/
 	virtual bool attack(cocos2d::Touch* touch, cocos2d::Event* event) override;
 

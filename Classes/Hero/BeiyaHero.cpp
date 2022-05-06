@@ -14,6 +14,7 @@ namespace {
 
 bool Beiya::attack(Touch* touch, Event* event)
 {
+	/** @note the animation of attack */
 	//get the location of touch point
 	Point touchLocation = touch->getLocation();
 	//convert the location to offset
@@ -34,6 +35,11 @@ bool Beiya::attack(Touch* touch, Event* event)
 	auto shot = MoveBy::create(static_cast<float>(_shotRange) / 5, attackVec);
 	auto removeBullet = RemoveSelf::create();
 	projectile->runAction(Sequence::create(shot, removeBullet, nullptr));
+
+	/** @note modify hero attributes */
+	--_ammo;
+	if (_ammo == _maxAmmo - 1)
+		startLoading();
 
 	return true;
 }

@@ -29,6 +29,15 @@ void Hero::setKeyboardListener(bool keyboardState) noexcept
 	}
 }
 
+void Hero::setTouchListener(bool touchState) noexcept
+{
+	//judge whether the touch state needs to be reset
+	if (_touchListener->isEnabled() == touchState)
+		return;
+	else
+		_touchListener->setEnabled(touchState);
+}
+
 Hero::Hero(const int maxHealthPoint, const int maxAmmo)
 	:_maxHealthPoint(maxHealthPoint), _maxAmmo(maxAmmo)
 {
@@ -51,6 +60,7 @@ void Hero::initializeTouchListener()
 	_touchListener = EventListenerTouchOneByOne::create();
 	_touchListener->onTouchBegan = CC_CALLBACK_2(Hero::onTouchBegan, this);
 	_eventDispatcher->addEventListenerWithSceneGraphPriority(_touchListener, this);
+	_touchListener->setEnabled(false);
 }
 
 void Hero::moveHero(float fdelta)
@@ -72,7 +82,37 @@ void Hero::moveHero(float fdelta)
 	else if (_keyCodeState[code::KEY_D] == true)
 		offsetX = 1;
 
+	//normalize the offset
+	Vec2 offset = Vec2(offsetX, offsetY);
+	offset.normalize();
+
 	//create the animation
-	auto move = MoveBy::create(1, static_cast<int>(_moveSpeed) * Point(offsetX, offsetY));
+	auto move = MoveBy::create(1, static_cast<int>(_moveSpeed) * offset);
 	this->runAction(move);
+}
+
+void Hero::startLoading(float fdelta)
+{
+	//add the function to scheduler
+	if (!isScheduled(SEL_SCHEDULE(&Hero::startLoading)))
+		this->schedule(SEL_SCHEDULE(&Hero::startLoading), 0.75f);
+
+	//remove from scheduler if is full of bullet
+	if (_ammo == _maxAmmo) {
+		this->setTouchListener(true);
+		this->unschedule(SEL_SCHEDULE(&Hero::startLoading));
+		return;
+	}
+
+	//loading
+	if (!_ammo) {
+		this->setTouchListener(false);
+		_ammo += 1;
+		return;
+	}
+	else {
+		this->setTouchListener(true);
+		_ammo += 1;
+		return;
+	}
 }
